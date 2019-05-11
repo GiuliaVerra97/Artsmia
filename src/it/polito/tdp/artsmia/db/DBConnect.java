@@ -7,7 +7,8 @@ import com.zaxxer.hikari.HikariDataSource;
 
 public class DBConnect {
 
-	private static String jdbcURL = "jdbc:mysql://localhost/artsmia?serverTimezone=Europe/Rome";
+	//artsima non ha un DB suo e quindi le sue tabelle mi sono apparse all'interno di metroparis di HeidiSQL
+	private static String jdbcURL = "jdbc:mysql://localhost/metroparis?serverTimezone=Europe/Rome";		
 
 	private static HikariDataSource ds = null;
 
@@ -17,7 +18,7 @@ public class DBConnect {
 			HikariConfig config = new HikariConfig();
 			config.setJdbcUrl(jdbcURL);
 			config.setUsername("root");
-			config.setPassword("root");
+			config.setPassword("ulla97");
 			
 			//configurazione mysql
 			config.addDataSourceProperty("cachePrepStmts", "true");
