@@ -7,6 +7,7 @@ package it.polito.tdp.artsmia;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+
 import it.polito.tdp.artsmia.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -55,7 +56,31 @@ public class ArtsmiaController {
 
 	@FXML
 	void doCalcolaComponenteConnessa(ActionEvent event) {
-		txtResult.setText("doCalcolaComponenteConnessa");
+
+		if(txtObjectId.getText()==null) {
+			txtResult.setText("inserire numero oggetto ");
+			return;
+		}
+	
+	
+		int oggetto=0;
+		try {
+			oggetto=Integer.parseInt(txtObjectId.getText());
+		}catch(NumberFormatException e) {
+			txtResult.appendText("Inserire intero\n");
+			return;
+		}
+		
+		if(model.getIdMap().containsKey(oggetto)) {
+			txtResult.appendText("l'oggetto esiste\n");
+		}else {
+			txtResult.appendText("IMpossibile calcolare componenti connesse, l'oggetto non esiste\n");
+			return;
+		}
+		
+		int num=model.calcolatComponentiConnesse(oggetto);
+		txtResult.appendText("le componenti connesse sono "+num);
+	
 	}
 
 	@FXML

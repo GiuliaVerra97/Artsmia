@@ -3,9 +3,12 @@ package it.polito.tdp.artsmia.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
+import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
@@ -64,6 +67,61 @@ public class Model {
 	public Integer getNumVertici() {
 		return grafo.vertexSet().size();
 	}
+
+
+
+
+
+	public Graph<ArtObject, DefaultWeightedEdge> getGrafo() {
+		return grafo;
+	}
+
+
+
+
+
+	public void setGrafo(Graph<ArtObject, DefaultWeightedEdge> grafo) {
+		this.grafo = grafo;
+	}
+
+
+
+
+
+	public Map<Integer, ArtObject> getIdMap() {
+		return idMap;
+	}
+
+
+
+
+
+	public void setIdMap(Map<Integer, ArtObject> idMap) {
+		this.idMap = idMap;
+	}
+
+
+
+
+
+	public int calcolatComponentiConnesse(int oggetto) {
+		
+		ArtObject o=idMap.get(oggetto);
+
+		ConnectivityInspector<ArtObject, DefaultWeightedEdge> conn=new ConnectivityInspector<ArtObject, DefaultWeightedEdge>(grafo);
+		return conn.connectedSetOf(o).size();		//mi da la dimensione deii vertici appartenenti alla stessa componente connessa del vertice passato come parametro
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
