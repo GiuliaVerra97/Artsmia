@@ -5,9 +5,11 @@
 package it.polito.tdp.artsmia;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 
+import it.polito.tdp.artsmia.model.ArtObject;
 import it.polito.tdp.artsmia.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,7 +27,7 @@ public class ArtsmiaController {
 	private URL location;
 
 	@FXML // fx:id="boxLUN"
-	private ChoiceBox<?> boxLUN; // Value injected by FXMLLoader
+	private ChoiceBox<Integer> boxLUN; // Value injected by FXMLLoader
 
 	@FXML // fx:id="btnCalcolaComponenteConnessa"
 	private Button btnCalcolaComponenteConnessa; // Value injected by FXMLLoader
@@ -73,19 +75,49 @@ public class ArtsmiaController {
 		
 		if(model.getIdMap().containsKey(oggetto)) {
 			txtResult.appendText("l'oggetto esiste\n");
+		
 		}else {
 			txtResult.appendText("IMpossibile calcolare componenti connesse, l'oggetto non esiste\n");
 			return;
 		}
 		
 		int num=model.calcolatComponentiConnesse(oggetto);
-		txtResult.appendText("le componenti connesse sono "+num);
+		txtResult.appendText("\nle componenti connesse sono "+num);
+		
+		for(int i=1; i<num; i++) {
+			boxLUN.getItems().add(i);
+		}
 	
 	}
 
 	@FXML
 	void doCercaOggetti(ActionEvent event) {
-		txtResult.setText("doCercaOggetti");
+		
+		if(boxLUN.getValue()==null) {
+			txtResult.appendText("Selezioneare LUN");
+			return;
+		}
+		
+		if(txtObjectId.getText()==null) {
+			txtResult.appendText("inserire oggetto");
+		}
+		
+		int oggetto=0;
+		int num=0;
+		try{
+			 oggetto=Integer.parseInt(txtObjectId.getText());
+			num=boxLUN.getValue();
+		}catch(NumberFormatException e) {
+			txtResult.setText("Inserire intero");
+			return;
+		}
+		
+		List<ArtObject> lista=model.cerca(oggetto, num);
+		for(ArtObject a: lista) {
+			txtResult.appendText(a.getName()+"\n");
+		}
+		txtResult.appendText("Peso massimo: "+model.pesoCamminoMassimo(lista));
+		
 	}
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
